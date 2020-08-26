@@ -4,6 +4,7 @@
 #find stuff on your machine using your terminal with a friendly robot voice helping you
 
 #define a few variables for espeak 
+#es(number) = espeak variable
 es1() {
 	espeak 'Welcome to Terminal Finder. What can I help you find today?' 
 }
