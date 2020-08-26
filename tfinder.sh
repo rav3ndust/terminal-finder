@@ -5,11 +5,11 @@
 
 #define a few variables for espeak 
 es1() {
-	espeak --stdin 'Welcome to Terminal Finder. What can I help you find today?' 
+	espeak 'Welcome to Terminal Finder. What can I help you find today?' 
 }
 
 es2() {
-	espeak --stdin 'Searching for relevant file' 
+	espeak 'Searching for relevant file' 
 }
  
 es3() {
