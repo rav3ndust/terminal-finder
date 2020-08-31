@@ -1,36 +1,44 @@
 #!/bin/bash
 
 #terminal-finder by rav3ndust
-#find stuff on your machine using your terminal with a friendly robot voice helping you
+#find stuff on your machine, select it, display it
 
-#define a few variables for espeak 
-#es(number) = espeak variable
-es1() {
-	espeak 'Welcome to Terminal Finder. What can I help you find today?' 
+#requires dmenu and xed or a similar text editor to function properly
+
+#define some stuff
+note1(){									#displays a notification confirming the search
+	notify-send -u normal 'Searching...' 'Looking for your files now!'
 }
 
-es2() {
-	espeak 'Searching for relevant file' 
+look() {									#uses locate to search the local machine for the requested input
+	locate --all $varInput
 }
- 
-es3() {
-	espeak 'Displaying your results. Thanks for searching with me today.' 
+
+searchMenu() {									#uses dmenu to display a personalized list of 10 most relevant files
+	dmenu -l 10 -nf red -sb black 
 }
+
+
+#define variables for user interaction
+NAME="TERMINAL FINDER"
+INTRO="Welcome to Terminal Finder. What can I help you find today?"
+USER1="Please enter the name of the file or package you are trying to search out below:"
+SRCH="Searching out your files..."
+FIN="Your files have been displayed above."
 
 #print the name of the program
-echo "TERMINAL FINDER" 
+echo $NAME 
 
 #ask the user what they are looking for and have bash search for it
-echo "Welcome to TerminalFinder. What can I help you find today?" | es1 	#espeak greets the user and waits for interaction 
-echo "Please enter the name of the file or package you are trying to search out below:"
-#parse the user's input
+echo $INTRO 
+echo $USER1
+#accept the user's input
 read varInput
 
-echo "Searching out your files..." | es2 && espeak $varInput 		#espeak confirms user choice
+note1 && echo $SRCH
 
-#use a customized dmenu to print the results of the user's search, pipe it to cat to display the desired file in the terminal
-locate --all $varInput | dmenu -l 40 -nf red -sb black | xargs cat 
- es3 		#espeak confirms contents displayed
+#use dmenu to print the results of the user's search, pipe it to xed to display the or edit the desired file 
+look | searchMenu | xargs xed 
 
-echo "Your files have been displayed above."
+echo $FIN
 exit						#exit the script
